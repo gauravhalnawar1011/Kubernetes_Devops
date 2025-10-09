@@ -99,6 +99,11 @@ This workflow ensures that the exact same image is used across all environments,
 
 The Docker platform has a simple client-server architecture.
 
+
+## Docker Workflow
+
+![Image](https://github.com/user-attachments/assets/a65395e5-4429-4dcb-85da-0543159b8ead)
+
 * **Docker Client**: This is the command-line tool (`docker`) that you use to issue commands like `docker build`, `docker run`, etc.
 * **Docker Daemon (`dockerd`)**: This is a background service running on the Docker host. It listens for API requests from the Docker Client and manages all the Docker objects: images, containers, networks, and volumes.
 * **Registry**: Where images are stored and pulled from.
