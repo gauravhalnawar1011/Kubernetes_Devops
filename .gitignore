@@ -1,0 +1,10 @@
+# Ignore all PNG images
+*.png
+
+# Ignore all GIF images
+*.gif
+
+# Ignore all JPG/JPEG images
+*.jpg
+*.jpeg
+
