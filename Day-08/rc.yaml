@@ -1,0 +1,19 @@
+# this for the replication controller 
+
+apiVersion: v1
+kind:  ReplicationController
+metadata:
+  name: nginx-rc 
+  labels:
+    env: dev
+spec:
+  template: 
+    metadata:
+      labels: 
+        env: demo
+      name: nginx
+    spec:
+      containers:
+      - image: nginx 
+        name: nginx-pod 
+  replicas: 3

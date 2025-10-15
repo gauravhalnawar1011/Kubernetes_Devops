@@ -1,0 +1,21 @@
+# This is for the ReplicaSet
+apiVersion: apps/v1  # because the v1 version is part of the apps group
+kind: ReplicaSet
+metadata:
+  name: nginx-rs
+  labels:
+    env: dev
+spec:
+  replicas: 5  
+  selector:
+    matchLabels:
+      env: dev  
+  template:
+    metadata:
+      name: nginx-rs  
+      labels:
+        env: dev
+    spec:
+      containers:
+        - image: nginx
+          name: nginx-rs
