@@ -1,0 +1,12 @@
+# load-balancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    env: dev
+  ports:
+  - port: 80
+    targetPort: 80
