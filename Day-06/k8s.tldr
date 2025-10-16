@@ -52,12 +52,12 @@
 			"typeName": "binding"
 		},
 		{
-			"x": 0,
-			"y": 0,
-			"lastActivityTimestamp": 0,
-			"meta": {},
 			"id": "pointer:pointer",
-			"typeName": "pointer"
+			"typeName": "pointer",
+			"x": 166.03353193190927,
+			"y": 211.29585332949205,
+			"lastActivityTimestamp": 1760603578919,
+			"meta": {}
 		},
 		{
 			"x": 606,
@@ -501,7 +501,7 @@
 			"selectedShapeIds": [
 				"shape:7B0Rxx17aABHar6-Skxvd"
 			],
-			"hoveredShapeId": null,
+			"hoveredShapeId": "shape:Vf0ZtumDM2mXEy87D8qBI",
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,
@@ -1451,7 +1451,7 @@
 			"isFocused": true,
 			"devicePixelRatio": 1,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": null,
+			"isHoveringCanvas": true,
 			"openMenus": [],
 			"isChangingStyle": false,
 			"isReadonly": false,

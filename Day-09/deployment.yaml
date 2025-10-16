@@ -1,0 +1,21 @@
+# this for the deployment 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nginx-deploy
+  labels: 
+    env: dev
+spec:
+  template:
+    metadata:
+      labels:
+        env: dev
+      name: nginx-deploy 
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-deploy
+  replicas: 5
+  selector:
+    matchLabels: 
+      env: dev
