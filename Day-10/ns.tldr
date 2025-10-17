@@ -34,14 +34,6 @@
 	},
 	"records": [
 		{
-			"id": "pointer:pointer",
-			"typeName": "pointer",
-			"x": 789,
-			"y": 910,
-			"lastActivityTimestamp": 1760626962338,
-			"meta": {}
-		},
-		{
 			"id": "asset:2083744159",
 			"type": "image",
 			"typeName": "asset",
@@ -55,27 +47,6 @@
 				"isAnimated": false
 			},
 			"meta": {}
-		},
-		{
-			"x": -106,
-			"y": -203,
-			"z": 1,
-			"meta": {},
-			"id": "camera:page:page",
-			"typeName": "camera"
-		},
-		{
-			"editingShapeId": null,
-			"croppingShapeId": null,
-			"selectedShapeIds": [],
-			"hoveredShapeId": null,
-			"erasingShapeIds": [],
-			"hintingShapeIds": [],
-			"focusedGroupId": null,
-			"meta": {},
-			"id": "instance_page_state:page:page",
-			"pageId": "page:page",
-			"typeName": "instance_page_state"
 		},
 		{
 			"meta": {},
@@ -92,11 +63,41 @@
 			"typeName": "document"
 		},
 		{
+			"x": 327.0165289256199,
+			"y": 420.50000000000006,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:x62RF4vQexo28LXWu4aUW",
+			"type": "image",
+			"props": {
+				"w": 975.9834710743801,
+				"h": 430.99999999999994,
+				"assetId": "asset:2083744159",
+				"playing": true,
+				"url": "",
+				"crop": null,
+				"flipX": false,
+				"flipY": false,
+				"altText": ""
+			},
+			"parentId": "page:page",
+			"index": "a1xikJcV",
+			"typeName": "shape"
+		},
+		{
+			"id": "pointer:pointer",
+			"typeName": "pointer",
+			"x": 62.00826446280996,
+			"y": 169.00000000000003,
+			"lastActivityTimestamp": 0,
+			"meta": {}
+		},
+		{
 			"followingUserId": null,
 			"opacityForNextShape": 1,
-			"stylesForNextShape": {
-				"tldraw:geo": "rectangle"
-			},
+			"stylesForNextShape": {},
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
@@ -128,7 +129,7 @@
 			"isFocused": true,
 			"devicePixelRatio": 1,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": true,
+			"isHoveringCanvas": null,
 			"openMenus": [],
 			"isChangingStyle": false,
 			"isReadonly": false,
@@ -139,28 +140,25 @@
 			"typeName": "instance"
 		},
 		{
-			"x": 327.0165289256199,
-			"y": 420.50000000000006,
-			"rotation": 0,
-			"isLocked": false,
-			"opacity": 1,
+			"editingShapeId": null,
+			"croppingShapeId": null,
+			"selectedShapeIds": [],
+			"hoveredShapeId": null,
+			"erasingShapeIds": [],
+			"hintingShapeIds": [],
+			"focusedGroupId": null,
 			"meta": {},
-			"id": "shape:x62RF4vQexo28LXWu4aUW",
-			"type": "image",
-			"props": {
-				"w": 975.9834710743801,
-				"h": 430.99999999999994,
-				"assetId": "asset:2083744159",
-				"playing": true,
-				"url": "",
-				"crop": null,
-				"flipX": false,
-				"flipY": false,
-				"altText": ""
-			},
-			"parentId": "page:page",
-			"index": "a1xikJcV",
-			"typeName": "shape"
+			"id": "instance_page_state:page:page",
+			"pageId": "page:page",
+			"typeName": "instance_page_state"
+		},
+		{
+			"x": -62.00826446280996,
+			"y": -169.00000000000003,
+			"z": 1,
+			"meta": {},
+			"id": "camera:page:page",
+			"typeName": "camera"
 		}
 	]
 }
