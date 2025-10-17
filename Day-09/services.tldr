@@ -76,9 +76,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 2527.16958744936,
-			"y": 1430.6203473945407,
-			"lastActivityTimestamp": 1760603618419,
+			"x": 2517.770061344761,
+			"y": 950.7907478494976,
+			"lastActivityTimestamp": 1760626178114,
 			"meta": {}
 		},
 		{
@@ -451,9 +451,9 @@
 			"meta": {}
 		},
 		{
-			"x": 976.8304125506402,
-			"y": 1097.3796526054593,
-			"z": 0.25,
+			"x": 228.60814120105323,
+			"y": 706.3459302967901,
+			"z": 0.3222425808578113,
 			"meta": {},
 			"id": "camera:page:page",
 			"typeName": "camera"
@@ -782,9 +782,9 @@
 			"editingShapeId": null,
 			"croppingShapeId": null,
 			"selectedShapeIds": [
-				"shape:k2qwWNzpkmdCCWZwPz2Vh"
+				"shape:8hC1ooGd9f5x5Ot5rUN_h"
 			],
-			"hoveredShapeId": "shape:k2qwWNzpkmdCCWZwPz2Vh",
+			"hoveredShapeId": "shape:72eDBP7KkNKZsqW563mDp",
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,
@@ -1404,13 +1404,7 @@
 		{
 			"followingUserId": null,
 			"opacityForNextShape": 1,
-			"stylesForNextShape": {
-				"tldraw:geo": "rectangle",
-				"tldraw:font": "mono",
-				"tldraw:arrowheadEnd": "arrow",
-				"tldraw:size": "l",
-				"tldraw:color": "black"
-			},
+			"stylesForNextShape": {},
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
