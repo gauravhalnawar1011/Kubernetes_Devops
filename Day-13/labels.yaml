@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+  labels:
+    run: redis
+    tier: backend-pod
+spec:
+  containers:
+  - name: redis
+    image: redis
+
