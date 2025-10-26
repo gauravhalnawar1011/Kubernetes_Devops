@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app-pod-secret
+spec:
+  containers:
+    - name: my-app-container
+      image: busybox:1.28
+      command: ['sh', '-c', 'echo "App is running..." && echo "My user is $DATABASE_USER" && echo "My password is $DATABASE_PASS" && sleep 3600']
+      env:
+        # --- This is the user variable ---
+        - name: DATABASE_USER # Name of the env var INSIDE the container
+          valueFrom:
+            secretKeyRef:
+              name: db-secret-declarative  # The name of your Secret
+              key: DB_USER                # The key you want to get
+        # --- This is the password variable ---
+        - name: DATABASE_PASS
+          valueFrom:
+            secretKeyRef:
+              name: db-secret-declarative
+              key: DB_PASSWORD

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: custom-cm
+data:
+  firstname: gaurav
+  lastname: halanwar
+  course: devops 

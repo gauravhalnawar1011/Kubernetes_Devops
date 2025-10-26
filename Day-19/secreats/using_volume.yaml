@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app-pod-secret-volume
+spec:
+  containers:
+    - name: my-app-container
+      image: busybox:1.28
+      command: ['sh', '-c', "echo 'Reading secret files...' && echo 'User:' && cat /etc/db-secret/DB_USER && echo 'Pass:' && cat /etc/db-secret/DB_PASSWORD && sleep 3600"]
+      volumeMounts: # <-- 2. Mount the volume into the container
+      - name: secret-volume
+        mountPath: /etc/db-secret # Directory inside the container
+        readOnly: true
+  volumes: # <-- 1. Define the volume at the Pod level
+    - name: secret-volume
+      secret:
+        secretName: db-secret-declarative # The name of your Secret
