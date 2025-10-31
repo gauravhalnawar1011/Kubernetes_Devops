@@ -1,0 +1,1314 @@
+{
+  "kind": "PodList",
+  "apiVersion": "v1",
+  "metadata": {
+    "resourceVersion": "542991"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "init-pod",
+        "namespace": "default",
+        "uid": "0b8830bf-8588-4bfe-abe3-d5933267094e",
+        "resourceVersion": "538895",
+        "generation": 1,
+        "creationTimestamp": "2025-10-26T08:22:08Z",
+        "labels": {
+          "name": "init-pod"
+        },
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"name\":\"init-pod\"},\"name\":\"init-pod\",\"namespace\":\"default\"},\"spec\":{\"containers\":[{\"command\":[\"sh\",\"-c\",\"echo \\\"App running with $firstname $lastname\\\" \\u0026\\u0026 sleep 3600\"],\"envFrom\":[{\"configMapRef\":{\"name\":\"custom-cm\"}}],\"image\":\"busybox:1.28\",\"name\":\"my-appcontainer\"}]}}\n"
+        },
+        "managedFields": [
+          {
+            "manager": "kubectl-client-side-apply",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-26T08:22:08Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                },
+                "f:labels": {
+                  ".": {},
+                  "f:name": {}
+                }
+              },
+              "f:spec": {
+                "f:containers": {
+                  "k:{\"name\":\"my-appcontainer\"}": {
+                    ".": {},
+                    "f:command": {},
+                    "f:envFrom": {},
+                    "f:image": {},
+                    "f:imagePullPolicy": {},
+                    "f:name": {},
+                    "f:resources": {},
+                    "f:terminationMessagePath": {},
+                    "f:terminationMessagePolicy": {}
+                  }
+                },
+                "f:dnsPolicy": {},
+                "f:enableServiceLinks": {},
+                "f:restartPolicy": {},
+                "f:schedulerName": {},
+                "f:securityContext": {},
+                "f:terminationGracePeriodSeconds": {}
+              }
+            }
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-31T07:40:39Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:status": {
+                "f:conditions": {
+                  "k:{\"type\":\"ContainersReady\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"Initialized\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodReadyToStartContainers\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodScheduled\"}": {
+                    "f:observedGeneration": {}
+                  },
+                  "k:{\"type\":\"Ready\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  }
+                },
+                "f:containerStatuses": {},
+                "f:hostIP": {},
+                "f:hostIPs": {},
+                "f:observedGeneration": {},
+                "f:phase": {},
+                "f:podIP": {},
+                "f:podIPs": {
+                  ".": {},
+                  "k:{\"ip\":\"10.244.2.11\"}": {
+                    ".": {},
+                    "f:ip": {}
+                  }
+                },
+                "f:startTime": {}
+              }
+            },
+            "subresource": "status"
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "kube-api-access-nfjwq",
+            "projected": {
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "name": "kube-root-ca.crt",
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "path": "namespace",
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "my-appcontainer",
+            "image": "busybox:1.28",
+            "command": [
+              "sh",
+              "-c",
+              "echo \"App running with $firstname $lastname\" \u0026\u0026 sleep 3600"
+            ],
+            "envFrom": [
+              {
+                "configMapRef": {
+                  "name": "custom-cm"
+                }
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "kube-api-access-nfjwq",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "default",
+        "serviceAccount": "default",
+        "nodeName": "space9-v2-worker2",
+        "securityContext": {},
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "observedGeneration": 1,
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-29T11:36:03Z"
+          },
+          {
+            "type": "Initialized",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T08:22:08Z"
+          },
+          {
+            "type": "Ready",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:39Z"
+          },
+          {
+            "type": "ContainersReady",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:39Z"
+          },
+          {
+            "type": "PodScheduled",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T08:22:08Z"
+          }
+        ],
+        "hostIP": "172.18.0.2",
+        "hostIPs": [
+          {
+            "ip": "172.18.0.2"
+          }
+        ],
+        "podIP": "10.244.2.11",
+        "podIPs": [
+          {
+            "ip": "10.244.2.11"
+          }
+        ],
+        "startTime": "2025-10-26T08:22:08Z",
+        "containerStatuses": [
+          {
+            "name": "my-appcontainer",
+            "state": {
+              "running": {
+                "startedAt": "2025-10-31T07:40:38Z"
+              }
+            },
+            "lastState": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2025-10-31T06:40:38Z",
+                "finishedAt": "2025-10-31T07:40:38Z",
+                "containerID": "containerd://e38e21c65cd5814515cf0e0d6094a60d9f13f4c619a407600c41cf32c2dfaa97"
+              }
+            },
+            "ready": true,
+            "restartCount": 35,
+            "image": "docker.io/library/busybox:1.28",
+            "imageID": "docker.io/library/busybox@sha256:141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+            "containerID": "containerd://0997a2b6e2f1ace55364c181202be34c064577faa6dbb452b26c5e1649dddb8f",
+            "started": true,
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "kube-api-access-nfjwq",
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ],
+            "user": {
+              "linux": {
+                "uid": 0,
+                "gid": 0,
+                "supplementalGroups": [
+                  0,
+                  10
+                ]
+              }
+            }
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    },
+    {
+      "metadata": {
+        "name": "my-app-pod-secret",
+        "namespace": "default",
+        "uid": "bf189c74-8d81-4c20-ad7c-80fe33d33933",
+        "resourceVersion": "538896",
+        "generation": 1,
+        "creationTimestamp": "2025-10-26T09:04:39Z",
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"my-app-pod-secret\",\"namespace\":\"default\"},\"spec\":{\"containers\":[{\"command\":[\"sh\",\"-c\",\"echo \\\"App is running...\\\" \\u0026\\u0026 echo \\\"My user is $DATABASE_USER\\\" \\u0026\\u0026 echo \\\"My password is $DATABASE_PASS\\\" \\u0026\\u0026 sleep 3600\"],\"env\":[{\"name\":\"DATABASE_USER\",\"valueFrom\":{\"secretKeyRef\":{\"key\":\"DB_USER\",\"name\":\"db-secret-declarative\"}}},{\"name\":\"DATABASE_PASS\",\"valueFrom\":{\"secretKeyRef\":{\"key\":\"DB_PASSWORD\",\"name\":\"db-secret-declarative\"}}}],\"image\":\"busybox:1.28\",\"name\":\"my-app-container\"}]}}\n"
+        },
+        "managedFields": [
+          {
+            "manager": "kubectl-client-side-apply",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-26T09:04:39Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                }
+              },
+              "f:spec": {
+                "f:containers": {
+                  "k:{\"name\":\"my-app-container\"}": {
+                    ".": {},
+                    "f:command": {},
+                    "f:env": {
+                      ".": {},
+                      "k:{\"name\":\"DATABASE_PASS\"}": {
+                        ".": {},
+                        "f:name": {},
+                        "f:valueFrom": {
+                          ".": {},
+                          "f:secretKeyRef": {}
+                        }
+                      },
+                      "k:{\"name\":\"DATABASE_USER\"}": {
+                        ".": {},
+                        "f:name": {},
+                        "f:valueFrom": {
+                          ".": {},
+                          "f:secretKeyRef": {}
+                        }
+                      }
+                    },
+                    "f:image": {},
+                    "f:imagePullPolicy": {},
+                    "f:name": {},
+                    "f:resources": {},
+                    "f:terminationMessagePath": {},
+                    "f:terminationMessagePolicy": {}
+                  }
+                },
+                "f:dnsPolicy": {},
+                "f:enableServiceLinks": {},
+                "f:restartPolicy": {},
+                "f:schedulerName": {},
+                "f:securityContext": {},
+                "f:terminationGracePeriodSeconds": {}
+              }
+            }
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-31T07:40:39Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:status": {
+                "f:conditions": {
+                  "k:{\"type\":\"ContainersReady\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"Initialized\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodReadyToStartContainers\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodScheduled\"}": {
+                    "f:observedGeneration": {}
+                  },
+                  "k:{\"type\":\"Ready\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  }
+                },
+                "f:containerStatuses": {},
+                "f:hostIP": {},
+                "f:hostIPs": {},
+                "f:observedGeneration": {},
+                "f:phase": {},
+                "f:podIP": {},
+                "f:podIPs": {
+                  ".": {},
+                  "k:{\"ip\":\"10.244.2.10\"}": {
+                    ".": {},
+                    "f:ip": {}
+                  }
+                },
+                "f:startTime": {}
+              }
+            },
+            "subresource": "status"
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "kube-api-access-kmzpc",
+            "projected": {
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "name": "kube-root-ca.crt",
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "path": "namespace",
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "my-app-container",
+            "image": "busybox:1.28",
+            "command": [
+              "sh",
+              "-c",
+              "echo \"App is running...\" \u0026\u0026 echo \"My user is $DATABASE_USER\" \u0026\u0026 echo \"My password is $DATABASE_PASS\" \u0026\u0026 sleep 3600"
+            ],
+            "env": [
+              {
+                "name": "DATABASE_USER",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "db-secret-declarative",
+                    "key": "DB_USER"
+                  }
+                }
+              },
+              {
+                "name": "DATABASE_PASS",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "db-secret-declarative",
+                    "key": "DB_PASSWORD"
+                  }
+                }
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "kube-api-access-kmzpc",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "default",
+        "serviceAccount": "default",
+        "nodeName": "space9-v2-worker2",
+        "securityContext": {},
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "observedGeneration": 1,
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-29T11:36:03Z"
+          },
+          {
+            "type": "Initialized",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T09:04:39Z"
+          },
+          {
+            "type": "Ready",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:39Z"
+          },
+          {
+            "type": "ContainersReady",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:39Z"
+          },
+          {
+            "type": "PodScheduled",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T09:04:39Z"
+          }
+        ],
+        "hostIP": "172.18.0.2",
+        "hostIPs": [
+          {
+            "ip": "172.18.0.2"
+          }
+        ],
+        "podIP": "10.244.2.10",
+        "podIPs": [
+          {
+            "ip": "10.244.2.10"
+          }
+        ],
+        "startTime": "2025-10-26T09:04:39Z",
+        "containerStatuses": [
+          {
+            "name": "my-app-container",
+            "state": {
+              "running": {
+                "startedAt": "2025-10-31T07:40:38Z"
+              }
+            },
+            "lastState": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2025-10-31T06:40:38Z",
+                "finishedAt": "2025-10-31T07:40:38Z",
+                "containerID": "containerd://bdfeb243f91523a4db3fd50239bfc5fdaadd6594a7c73e04ce217e36cb15c31a"
+              }
+            },
+            "ready": true,
+            "restartCount": 34,
+            "image": "docker.io/library/busybox:1.28",
+            "imageID": "docker.io/library/busybox@sha256:141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+            "containerID": "containerd://9c036ecba32eb8864644d0e172e03cc028487355dd9bc56206aa91d4dca03022",
+            "started": true,
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "kube-api-access-kmzpc",
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ],
+            "user": {
+              "linux": {
+                "uid": 0,
+                "gid": 0,
+                "supplementalGroups": [
+                  0,
+                  10
+                ]
+              }
+            }
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    },
+    {
+      "metadata": {
+        "name": "my-app-pod-secret-envfrom",
+        "namespace": "default",
+        "uid": "43d67002-b6b4-4808-8655-cfac5a2d63e0",
+        "resourceVersion": "538883",
+        "generation": 1,
+        "creationTimestamp": "2025-10-26T09:08:52Z",
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"my-app-pod-secret-envfrom\",\"namespace\":\"default\"},\"spec\":{\"containers\":[{\"command\":[\"sh\",\"-c\",\"echo \\\"User: $DB_USER\\\" \\u0026\\u0026 echo \\\"Pass: $DB_PASSWORD\\\" \\u0026\\u0026 sleep 3600\"],\"envFrom\":[{\"secretRef\":{\"name\":\"db-secret-declarative\"}}],\"image\":\"busybox:1.28\",\"name\":\"my-app-container\"}]}}\n"
+        },
+        "managedFields": [
+          {
+            "manager": "kubectl-client-side-apply",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-26T09:08:52Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                }
+              },
+              "f:spec": {
+                "f:containers": {
+                  "k:{\"name\":\"my-app-container\"}": {
+                    ".": {},
+                    "f:command": {},
+                    "f:envFrom": {},
+                    "f:image": {},
+                    "f:imagePullPolicy": {},
+                    "f:name": {},
+                    "f:resources": {},
+                    "f:terminationMessagePath": {},
+                    "f:terminationMessagePolicy": {}
+                  }
+                },
+                "f:dnsPolicy": {},
+                "f:enableServiceLinks": {},
+                "f:restartPolicy": {},
+                "f:schedulerName": {},
+                "f:securityContext": {},
+                "f:terminationGracePeriodSeconds": {}
+              }
+            }
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-31T07:40:38Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:status": {
+                "f:conditions": {
+                  "k:{\"type\":\"ContainersReady\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"Initialized\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodReadyToStartContainers\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodScheduled\"}": {
+                    "f:observedGeneration": {}
+                  },
+                  "k:{\"type\":\"Ready\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  }
+                },
+                "f:containerStatuses": {},
+                "f:hostIP": {},
+                "f:hostIPs": {},
+                "f:observedGeneration": {},
+                "f:phase": {},
+                "f:podIP": {},
+                "f:podIPs": {
+                  ".": {},
+                  "k:{\"ip\":\"10.244.2.4\"}": {
+                    ".": {},
+                    "f:ip": {}
+                  }
+                },
+                "f:startTime": {}
+              }
+            },
+            "subresource": "status"
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "kube-api-access-x85ld",
+            "projected": {
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "name": "kube-root-ca.crt",
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "path": "namespace",
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "my-app-container",
+            "image": "busybox:1.28",
+            "command": [
+              "sh",
+              "-c",
+              "echo \"User: $DB_USER\" \u0026\u0026 echo \"Pass: $DB_PASSWORD\" \u0026\u0026 sleep 3600"
+            ],
+            "envFrom": [
+              {
+                "secretRef": {
+                  "name": "db-secret-declarative"
+                }
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "kube-api-access-x85ld",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "default",
+        "serviceAccount": "default",
+        "nodeName": "space9-v2-worker2",
+        "securityContext": {},
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "observedGeneration": 1,
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-29T11:36:03Z"
+          },
+          {
+            "type": "Initialized",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T09:08:52Z"
+          },
+          {
+            "type": "Ready",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:38Z"
+          },
+          {
+            "type": "ContainersReady",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:38Z"
+          },
+          {
+            "type": "PodScheduled",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T09:08:52Z"
+          }
+        ],
+        "hostIP": "172.18.0.2",
+        "hostIPs": [
+          {
+            "ip": "172.18.0.2"
+          }
+        ],
+        "podIP": "10.244.2.4",
+        "podIPs": [
+          {
+            "ip": "10.244.2.4"
+          }
+        ],
+        "startTime": "2025-10-26T09:08:52Z",
+        "containerStatuses": [
+          {
+            "name": "my-app-container",
+            "state": {
+              "running": {
+                "startedAt": "2025-10-31T07:40:37Z"
+              }
+            },
+            "lastState": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2025-10-31T06:40:37Z",
+                "finishedAt": "2025-10-31T07:40:37Z",
+                "containerID": "containerd://a451c1f94882fcf5d8fabe6558f7fffc9f6b1a1582d5c1a348b9cdea1f066ddf"
+              }
+            },
+            "ready": true,
+            "restartCount": 34,
+            "image": "docker.io/library/busybox:1.28",
+            "imageID": "docker.io/library/busybox@sha256:141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+            "containerID": "containerd://b572357999ae77878ea98373836ca4d8e31297384327433cef69ef68b008062c",
+            "started": true,
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "kube-api-access-x85ld",
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ],
+            "user": {
+              "linux": {
+                "uid": 0,
+                "gid": 0,
+                "supplementalGroups": [
+                  0,
+                  10
+                ]
+              }
+            }
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    },
+    {
+      "metadata": {
+        "name": "my-app-pod-secret-volume",
+        "namespace": "default",
+        "uid": "d1ba931e-b46d-422c-8ada-1a1e787e6582",
+        "resourceVersion": "538885",
+        "generation": 1,
+        "creationTimestamp": "2025-10-26T09:11:22Z",
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"name\":\"my-app-pod-secret-volume\",\"namespace\":\"default\"},\"spec\":{\"containers\":[{\"command\":[\"sh\",\"-c\",\"echo 'Reading secret files...' \\u0026\\u0026 echo 'User:' \\u0026\\u0026 cat /etc/db-secret/DB_USER \\u0026\\u0026 echo 'Pass:' \\u0026\\u0026 cat /etc/db-secret/DB_PASSWORD \\u0026\\u0026 sleep 3600\"],\"image\":\"busybox:1.28\",\"name\":\"my-app-container\",\"volumeMounts\":[{\"mountPath\":\"/etc/db-secret\",\"name\":\"secret-volume\",\"readOnly\":true}]}],\"volumes\":[{\"name\":\"secret-volume\",\"secret\":{\"secretName\":\"db-secret-declarative\"}}]}}\n"
+        },
+        "managedFields": [
+          {
+            "manager": "kubectl-client-side-apply",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-26T09:11:22Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:kubectl.kubernetes.io/last-applied-configuration": {}
+                }
+              },
+              "f:spec": {
+                "f:containers": {
+                  "k:{\"name\":\"my-app-container\"}": {
+                    ".": {},
+                    "f:command": {},
+                    "f:image": {},
+                    "f:imagePullPolicy": {},
+                    "f:name": {},
+                    "f:resources": {},
+                    "f:terminationMessagePath": {},
+                    "f:terminationMessagePolicy": {},
+                    "f:volumeMounts": {
+                      ".": {},
+                      "k:{\"mountPath\":\"/etc/db-secret\"}": {
+                        ".": {},
+                        "f:mountPath": {},
+                        "f:name": {},
+                        "f:readOnly": {}
+                      }
+                    }
+                  }
+                },
+                "f:dnsPolicy": {},
+                "f:enableServiceLinks": {},
+                "f:restartPolicy": {},
+                "f:schedulerName": {},
+                "f:securityContext": {},
+                "f:terminationGracePeriodSeconds": {},
+                "f:volumes": {
+                  ".": {},
+                  "k:{\"name\":\"secret-volume\"}": {
+                    ".": {},
+                    "f:name": {},
+                    "f:secret": {
+                      ".": {},
+                      "f:defaultMode": {},
+                      "f:secretName": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "manager": "kubelet",
+            "operation": "Update",
+            "apiVersion": "v1",
+            "time": "2025-10-31T07:40:38Z",
+            "fieldsType": "FieldsV1",
+            "fieldsV1": {
+              "f:status": {
+                "f:conditions": {
+                  "k:{\"type\":\"ContainersReady\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"Initialized\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodReadyToStartContainers\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  },
+                  "k:{\"type\":\"PodScheduled\"}": {
+                    "f:observedGeneration": {}
+                  },
+                  "k:{\"type\":\"Ready\"}": {
+                    ".": {},
+                    "f:lastProbeTime": {},
+                    "f:lastTransitionTime": {},
+                    "f:observedGeneration": {},
+                    "f:status": {},
+                    "f:type": {}
+                  }
+                },
+                "f:containerStatuses": {},
+                "f:hostIP": {},
+                "f:hostIPs": {},
+                "f:observedGeneration": {},
+                "f:phase": {},
+                "f:podIP": {},
+                "f:podIPs": {
+                  ".": {},
+                  "k:{\"ip\":\"10.244.2.3\"}": {
+                    ".": {},
+                    "f:ip": {}
+                  }
+                },
+                "f:startTime": {}
+              }
+            },
+            "subresource": "status"
+          }
+        ]
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "secret-volume",
+            "secret": {
+              "secretName": "db-secret-declarative",
+              "defaultMode": 420
+            }
+          },
+          {
+            "name": "kube-api-access-z8fk4",
+            "projected": {
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "name": "kube-root-ca.crt",
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "path": "namespace",
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "my-app-container",
+            "image": "busybox:1.28",
+            "command": [
+              "sh",
+              "-c",
+              "echo 'Reading secret files...' \u0026\u0026 echo 'User:' \u0026\u0026 cat /etc/db-secret/DB_USER \u0026\u0026 echo 'Pass:' \u0026\u0026 cat /etc/db-secret/DB_PASSWORD \u0026\u0026 sleep 3600"
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "secret-volume",
+                "readOnly": true,
+                "mountPath": "/etc/db-secret"
+              },
+              {
+                "name": "kube-api-access-z8fk4",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "imagePullPolicy": "IfNotPresent"
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "default",
+        "serviceAccount": "default",
+        "nodeName": "space9-v2-worker2",
+        "securityContext": {},
+        "schedulerName": "default-scheduler",
+        "tolerations": [
+          {
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          },
+          {
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "effect": "NoExecute",
+            "tolerationSeconds": 300
+          }
+        ],
+        "priority": 0,
+        "enableServiceLinks": true,
+        "preemptionPolicy": "PreemptLowerPriority"
+      },
+      "status": {
+        "observedGeneration": 1,
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "PodReadyToStartContainers",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-29T11:36:03Z"
+          },
+          {
+            "type": "Initialized",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T09:11:22Z"
+          },
+          {
+            "type": "Ready",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:38Z"
+          },
+          {
+            "type": "ContainersReady",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-31T07:40:38Z"
+          },
+          {
+            "type": "PodScheduled",
+            "observedGeneration": 1,
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2025-10-26T09:11:22Z"
+          }
+        ],
+        "hostIP": "172.18.0.2",
+        "hostIPs": [
+          {
+            "ip": "172.18.0.2"
+          }
+        ],
+        "podIP": "10.244.2.3",
+        "podIPs": [
+          {
+            "ip": "10.244.2.3"
+          }
+        ],
+        "startTime": "2025-10-26T09:11:22Z",
+        "containerStatuses": [
+          {
+            "name": "my-app-container",
+            "state": {
+              "running": {
+                "startedAt": "2025-10-31T07:40:37Z"
+              }
+            },
+            "lastState": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2025-10-31T06:40:37Z",
+                "finishedAt": "2025-10-31T07:40:37Z",
+                "containerID": "containerd://549aceb376adf184febd8f09705a32f363c647489cf6af0e9e9d84a6fe551ccc"
+              }
+            },
+            "ready": true,
+            "restartCount": 34,
+            "image": "docker.io/library/busybox:1.28",
+            "imageID": "docker.io/library/busybox@sha256:141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+            "containerID": "containerd://a7c852040a1d49580336e7ab07feff67af09ee19412b520a85f61ed4a5c9dd7c",
+            "started": true,
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "secret-volume",
+                "mountPath": "/etc/db-secret",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "name": "kube-api-access-z8fk4",
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ],
+            "user": {
+              "linux": {
+                "uid": 0,
+                "gid": 0,
+                "supplementalGroups": [
+                  0,
+                  10
+                ]
+              }
+            }
+          }
+        ],
+        "qosClass": "BestEffort"
+      }
+    }
+  ]
+}
