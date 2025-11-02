@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-deployment
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+        - name: todo-container
+          image: gauravhalnawar2705/day-02_to-do-app-node:latest
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: docker-hub-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app-service
+  namespace: todo-app
+spec:
+  type: NodePort
+  selector:
+    app: todo-app
+  ports:
+    - port: 3000           # Service port
+      targetPort: 3000     # Container port
+      nodePort: 30080      # Node port (accessible externally)
+
+
+#commands to run 
+
+# kubectl create ns todo-app
+# kubectl create secret docker-registry  docker-hub-secret   --docker-server=https://index.docker.io/v1/   --docker-username=<your_docker_username>   --docker-password='<you_dockerhub_passwd>'   --docker-email='your_mail_id_com>' -n todo-app
+# kubectl apply -f pod.yaml
+#kubectl get all -n todo-app
+#kubectl get po -n todo-app -o wide 
+#kubectl describe po/<pod_name> -n todo-app  
+#get the node ip from it 
+#http://<node_ip>:<node_port>
