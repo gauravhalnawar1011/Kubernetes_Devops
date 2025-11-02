@@ -1,0 +1,19 @@
+# kind-multinode.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # This maps container port 30080 (a NodePort service) to localhost:30080
+      - containerPort: 30080
+        hostPort: 30080
+        protocol: TCP
+  - role: worker
+  - role: worker
+
+# Optional: expose API server on localhost
+networking:
+  apiServerAddress: "127.0.0.1"
+  apiServerPort: 6443
+
