@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    run: nginx-pod
+spec:
+  containers:
+    - name: nginx-pod
+      image: my-registry:5000/mynginx:v2
+  imagePullSecrets:
+    - name: nginx-secret
+  restartPolicy: Always
