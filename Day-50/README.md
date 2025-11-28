@@ -406,3 +406,4 @@ kubectl delete namespace olm
 
 ---
 
+#Kubernetes #Operators #DevOps #K8s #PlatformEngineering #CloudNative #SRE #LearningInPublic #certmanager #OLM #CRD #Automation #OpenSource
