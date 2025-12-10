@@ -321,7 +321,7 @@ eksctl delete cluster --region us-east-1 --name spoke2-cluster
 
 
 
-```md
+
 ## 📸 Screenshots
 
 
@@ -333,7 +333,7 @@ eksctl delete cluster --region us-east-1 --name spoke2-cluster
 
 ### ✅ Guestbook App Running
 <img width="1857" height="473" alt="Image" src="https://github.com/user-attachments/assets/b4740a9b-a688-4088-bcf2-50fdebcc09ca" />
-```
+
 
 ---
 
