@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: springboot-prod
+  namespace: argocd
+spec:
+  project: prod-project
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod-1
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  sources:
+    - repoURL: https://github.com/devops4solutions/deploy-argocd-app.git
+      targetRevision: main
+      ref: values
+    - repoURL: https://devops4solutions.github.io/springboot-helm-chart/
+      chart: springboot
+      targetRevision: 0.1.5
+      helm:
+        valueFiles:
+          - $values/deploy/prod/values.yaml
