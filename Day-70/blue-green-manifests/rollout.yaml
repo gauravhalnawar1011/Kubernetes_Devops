@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: blue-green-deployment
+  namespace: blue-green
 spec:
   replicas: 4
   selector:
@@ -14,45 +15,15 @@ spec:
     spec:
       containers:
       - name: blue-green
-        image: blue-green
-        imagePullPolicy: Never
+        image: gauravhalnawar2705/blue-green-deployment:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
         env:
         - name: html_name
           value: "app-v1.html"
-        ports:
-        - containerPort: 5000
   strategy:
-    blueGreen: 
+    blueGreen:
       activeService: rollout-bluegreen-active
       previewService: rollout-bluegreen-preview
       autoPromotionEnabled: false
-      # abortScaleDownDelaySeconds: 10
-      # autoPromotionEnabled: false
-      # scaleDownDelaySeconds: 60
-      # previewReplicaCount: 2
-      # autoPromotionSeconds: 20
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: rollout-bluegreen-active
-spec:
-  selector:
-    app: blue-green-deployment
-  ports:
-  - protocol: TCP
-    port: 5000
-    targetPort: 5000
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: rollout-bluegreen-preview
-spec:
-  selector:
-    app: blue-green-deployment
-  ports:
-  - protocol: TCP
-    port: 5000
-    targetPort: 5000
