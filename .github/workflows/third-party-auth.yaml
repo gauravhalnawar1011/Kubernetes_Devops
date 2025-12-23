@@ -42,7 +42,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-2
-          role-to-assume: arn:aws:iam::715210804309:role/github_action_oidc
+          role-to-assume: arn:aws:iam:<AWS_ACCOUNT_ID:role/<ROLE_NAME>>
 
       - name: Get AWS identity (OIDC)
         id: identity
