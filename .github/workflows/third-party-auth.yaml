@@ -1,0 +1,72 @@
+name: Third Party Authentication Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # ❌ Legacy approach — static credentials (demo only)
+  auth-to-aws-static:
+    runs-on: ubuntu-24.04
+    outputs:
+      aws_account_id: ${{ steps.identity.outputs.account }}
+      aws_arn: ${{ steps.identity.outputs.arn }}
+      aws_user_id: ${{ steps.identity.outputs.user_id }}
+    steps:
+      - name: Configure AWS credentials using static access keys
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Get AWS identity (static)
+        id: identity
+        run: |
+          IDENTITY=$(aws sts get-caller-identity)
+          echo "account=$(echo $IDENTITY | jq -r .Account)" >> $GITHUB_OUTPUT
+          echo "arn=$(echo $IDENTITY | jq -r .Arn)" >> $GITHUB_OUTPUT
+          echo "user_id=$(echo $IDENTITY | jq -r .UserId)" >> $GITHUB_OUTPUT
+
+  # ✅ Recommended approach — OIDC
+  auth-to-aws-oidc:
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      contents: read
+    outputs:
+      aws_account_id: ${{ steps.identity.outputs.account }}
+      aws_arn: ${{ steps.identity.outputs.arn }}
+      aws_user_id: ${{ steps.identity.outputs.user_id }}
+    steps:
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-2
+          role-to-assume: arn:aws:iam::715210804309:role/github_action_oidc
+
+      - name: Get AWS identity (OIDC)
+        id: identity
+        run: |
+          IDENTITY=$(aws sts get-caller-identity)
+          echo "account=$(echo $IDENTITY | jq -r .Account)" >> $GITHUB_OUTPUT
+          echo "arn=$(echo $IDENTITY | jq -r .Arn)" >> $GITHUB_OUTPUT
+          echo "user_id=$(echo $IDENTITY | jq -r .UserId)" >> $GITHUB_OUTPUT
+
+  # 🔍 Compare results
+  compare-identities:
+    runs-on: ubuntu-24.04
+    needs:
+      - auth-to-aws-static
+      - auth-to-aws-oidc
+    steps:
+      - name: Compare authentication methods
+        run: |
+          echo "=== Static Credentials ==="
+          echo "Account ID: ${{ needs.auth-to-aws-static.outputs.aws_account_id }}"
+          echo "ARN:        ${{ needs.auth-to-aws-static.outputs.aws_arn }}"
+          echo "User ID:    ${{ needs.auth-to-aws-static.outputs.aws_user_id }}"
+          echo ""
+          echo "=== OIDC Authentication ==="
+          echo "Account ID: ${{ needs.auth-to-aws-oidc.outputs.aws_account_id }}"
+          echo "ARN:        ${{ needs.auth-to-aws-oidc.outputs.aws_arn }}"
+          echo "User ID:    ${{ needs.auth-to-aws-oidc.outputs.aws_user_id }}"
