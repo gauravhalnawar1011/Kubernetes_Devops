@@ -1,0 +1,15 @@
+name: "Hello Local Action"
+description: "Simple local test action"
+
+inputs:
+  name:
+    description: "Name to greet"
+    required: true
+
+outputs:
+  greeting:
+    description: "Greeting message"
+
+runs:
+  using: "node16"
+  main: "index.js"
