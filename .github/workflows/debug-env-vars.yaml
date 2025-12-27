@@ -1,0 +1,16 @@
+name: Debugging with Environment Flags
+
+on:
+  workflow_dispatch:
+
+jobs:
+  log-visibility-demo:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Demonstrate structured logging
+        run: |
+          echo "::notice::Workflow started"
+          echo "::debug::This debug message is hidden by default"
+          echo "::warning::This is a warning log"
+          echo "::error::This is an error log example"
