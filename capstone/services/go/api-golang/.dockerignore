@@ -1,0 +1,126 @@
+# ──────────────────────────
+# 1. VCS & tooling metadata
+# ──────────────────────────
+.git
+.gitmodules
+.gitignore
+.gitattributes
+.hg
+.svn
+*.patch
+*.diff
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-*
+*.sw?
+
+# OS cruft
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# ──────────────────────────
+# 2. Logs & runtime output
+# ──────────────────────────
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pip-log.txt
+coverage/
+coverage.* # lcov, cobertura, etc.
+*.coverprofile
+*.out        # Go test output
+
+# ──────────────────────────
+# 3. Dependency caches
+#    (re‑install inside the container)
+# ──────────────────────────
+# Node / React
+node_modules/
+.npm/
+.pnpm-store/
+.bun/
+
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+.conda/
+pip-wheel-metadata/
+
+# Go
+/pkg/
+bin/            # if you compile on host
+*.exe
+*.dll
+*.so
+*.dylib
+
+# ──────────────────────────
+# 4. Build artefacts
+# ──────────────────────────
+# Front‑end
+dist/
+build/
+.next/
+.out/
+
+# Python
+*.egg-info/
+.eggs/
+build/
+develop-eggs/
+*.whl
+wheelhouse/
+
+# Go
+*.test
+coverage.out
+
+# Misc binary/blob artefacts
+*.zip
+*.tar
+*.tgz
+*.gz
+*.7z
+*.rar
+*.jar
+*.war
+*.class
+
+# ──────────────────────────
+# 5. Secrets & config
+#    (copy them at runtime or via CI)
+# ──────────────────────────
+.env
+.env.*
+*.pem
+*.crt
+*.key
+*.pfx
+*.p12
+
+# ──────────────────────────
+# 6. Docker & CI files you DON’T want in context
+# ──────────────────────────
+docker-compose*.yml
+.docker/
+.tmp_docker_context/
+
+# ──────────────────────────
+# 7. Documentation
+# ──────────────────────────
+docs/
+**/*.md
+**/*.rst
+**/*.adoc

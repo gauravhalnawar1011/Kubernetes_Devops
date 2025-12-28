@@ -1,0 +1,10 @@
+version: 
+
+
+tasks:
+    trigger-workflow:
+      desc: trigger gihub action workflow using act 
+      cmds: 
+        - | 
+           act workflow_dispatch \
+             --container

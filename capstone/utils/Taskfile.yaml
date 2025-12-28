@@ -1,0 +1,153 @@
+version: "3"
+
+tasks:
+  generate-version:
+    desc: "Use git describe to generate a tag based on the latest release tag"
+    vars:
+      SERVICE_RELEASE_TAG: "{{.CLI_ARGS}}"
+    cmds:
+      - |
+        set -euo pipefail
+        TAG=$(git describe --tags --always --first-parent --match "{{.SERVICE_RELEASE_TAG}}@[0-9]*.[0-9]*.[0-9]*")
+        PREFIX="{{.SERVICE_RELEASE_TAG}}@"
+        echo "${TAG#${PREFIX}}"
+    silent: true
+
+  generate-version-tag:
+    desc: "Combine the image repo with the version tag"
+    vars:
+      SERVICE_RELEASE_TAG: "{{.CLI_ARGS}}"
+      VERSION:
+        sh: task -s generate-version -- {{.SERVICE_RELEASE_TAG}}
+    cmds:
+      - |
+        echo "{{.IMAGE_REPO}}:{{.VERSION}}"
+
+  generate-extended-version:
+    desc: "Emit X.Y.Z-000N-g<SHA> using generate-version as the base"
+    vars:
+      SERVICE_RELEASE_TAG: "{{.CLI_ARGS}}"
+      BASE_VERSION:
+        sh: task -s generate-version -- {{.SERVICE_RELEASE_TAG}}
+    cmds:
+      - |
+        set -euo pipefail
+
+        GIT_VERSION="{{.BASE_VERSION}}"
+
+        # Ensure we have the -N-g<sha> suffix
+        if [[ ! $GIT_VERSION =~ -g[0-9a-fA-F]+$ ]]; then
+          GIT_HASH="$(git rev-parse --short HEAD)"
+          GIT_VERSION="${GIT_VERSION}-0-g${GIT_HASH}"
+        fi
+
+        # Split and zero-pad the count (N)
+        IFS='-' read -r BASE_VER COUNT GREF <<<"$GIT_VERSION"
+        printf "%s-%04d-%s\n" "$BASE_VER" "$COUNT" "$GREF"
+    silent: true
+
+  generate-extended-version-tag:
+    desc: "Combine the image repo with the version tag"
+    vars:
+      SERVICE_RELEASE_TAG: "{{.CLI_ARGS}}"
+      VERSION:
+        sh: task -s generate-extended-version -- {{.SERVICE_RELEASE_TAG}}
+    cmds:
+      - |
+        echo "{{.IMAGE_REPO}}:{{.VERSION}}"
+
+  manual-version-tag:
+    desc: "Combine the image repo with the input version tag"
+    vars:
+      VERSION: "{{.CLI_ARGS}}"
+    cmds:
+      - |
+        echo "{{.IMAGE_REPO}}:{{.VERSION}}"
+
+  update-image-tags:
+    desc: "Recursively update image tags in files with the specified comment"
+    vars:
+      EXCLUDED_FILES: |
+        {{.TASKFILE_DIR}}/Taskfile.yaml
+        MORE_FILES_CAN_GO_HERE
+    cmds:
+      - cmd: |
+          if [ -z "{{.NEW_TAG}}" ] || [ -z "{{.IDENTIFIER_COMMENT}}" ] || [ -z "{{.STARTING_PATH}}" ]; then
+            echo "Usage: task update-image-tags NEW_TAG=new-tag IDENTIFIER_COMMENT='# THIS_IS_MY_IMAGE_TAG' STARTING_PATH=/path/to/start" && exit 1;
+          fi
+      - cmd: |
+          echo "STARTING_PATH: {{ .STARTING_PATH }}"
+          echo "IDENTIFIER_COMMENT: {{ .IDENTIFIER_COMMENT }}"
+          echo "NEW_TAG: {{ .NEW_TAG }}"
+        silent: true
+      - cmd: |
+          find "{{.STARTING_PATH}}" -type f \( -name "*.yaml" -o -name "*.yml" \) -exec grep -l "{{.IDENTIFIER_COMMENT}}" {} \; | while read -r file; do
+            if ! echo "{{ .EXCLUDED_FILES }}" | grep -q "$file"; then
+              echo "Updating: $file"
+              # NOTE: macos and GNU sed behave differently here... GNU sed is available in the devbox environment
+              sed -i "s|\(\s*.*:\s*\).* \({{ .IDENTIFIER_COMMENT }}\)|\1{{ .NEW_TAG }} \2|" "$file";
+            fi
+          done
+
+  update-image-tags-service:
+    desc: "Update image tags for kluctl config"
+    cmds:
+      - task: update-image-tags
+        vars:
+          IDENTIFIER_COMMENT: "# {{.ENVIRONMENT}}_{{.SERVICE_RELEASE_TAG}}"
+          STARTING_PATH:
+            sh: git rev-parse --show-toplevel
+
+  git:commit-push:
+    desc: "Commit & push changes to a branch with exponential backoff retries"
+    vars:
+      COMMIT_MSG: '{{.COMMIT_MSG | default "chore: automated update [skip ci]"}}'
+      BRANCH: '{{.BRANCH | default "main"}}'
+      MAX_RETRIES: "{{.MAX_RETRIES| default 5}}"
+      BASE_DELAY: "{{.BASE_DELAY | default 2}}" # seconds, first backoff step
+      JITTER_MAX: "{{.JITTER_MAX | default 3}}" # additional random seconds
+    cmds:
+      - |
+        set -euo pipefail
+
+        # Bail if nothing to commit
+        if git diff --quiet; then
+          echo "No changes to commit."
+          exit 0
+        fi
+
+        # Configure identity (override via env if you want)
+        : "${GIT_USER_NAME:=github-actions[bot]}"
+        : "${GIT_USER_EMAIL:=${GITHUB_ACTOR_ID:-41898282}+${GITHUB_ACTOR:-github-actions[bot]}@users.noreply.github.com}"
+
+        git config user.name  "$GIT_USER_NAME"
+        git config user.email "$GIT_USER_EMAIL"
+
+        git add -A
+        git commit -m "{{.COMMIT_MSG}}"
+
+        attempt=1
+        while [ $attempt -le "{{.MAX_RETRIES}}" ]; do
+          git fetch origin "{{.BRANCH}}"
+
+          if ! git rebase "origin/{{.BRANCH}}"; then
+            echo "Rebase failed; aborting and retrying..."
+            git rebase --abort || true
+          fi
+
+          if git push origin HEAD:"{{.BRANCH}}"; then
+            echo "Push succeeded on attempt $attempt"
+            exit 0
+          fi
+
+          delay=$(( {{.BASE_DELAY}} * 2**(attempt-1) ))
+          jitter=$(( RANDOM % {{.JITTER_MAX}} ))
+          sleep_time=$(( delay + jitter ))
+          echo "Push failed (attempt $attempt). Retrying in ${sleep_time}s (base=${delay}s, jitter=${jitter}s)..."
+          sleep "$sleep_time"
+
+          attempt=$(( attempt + 1 ))
+        done
+
+        echo "Push failed after {{.MAX_RETRIES}} attempts" >&2
+        exit 1
