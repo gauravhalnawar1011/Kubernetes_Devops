@@ -1,0 +1,34 @@
+version: "3"
+
+includes:
+  api-golang:
+    taskfile: ./services/go/api-golang/Taskfile.yaml
+    dir: ./services/go/api-golang
+  api-node:
+    taskfile: ./services/node/api-node/Taskfile.yaml
+    dir: ./services/node/api-node
+  client-react:
+    taskfile: ./services/react/client-react/Taskfile.yaml
+    dir: ./services/react/client-react
+  load-generator-python:
+    taskfile: ./services/python/load-generator-python/Taskfile.yaml
+    dir: ./services/python/load-generator-python
+  api-golang-migrator:
+    taskfile: ./services/other/api-golang-migrator/Taskfile.yaml
+    dir: ./services/other/api-golang-migrator
+
+vars:
+  DATABASE_URL: "postgres://postgres:foobarbaz@localhost:5432/postgres"
+
+tasks:
+  bootstrap-buildx-builder:
+    desc: Bootstrap the builder
+    cmds:
+      - docker buildx create --name mybuilder --driver docker-container --driver-opt network=host --use
+      - docker buildx inspect mybuilder --bootstrap
+      - docker buildx use mybuilder
+
+  run-local-registry:
+    desc: Run a local registry
+    cmds:
+      - docker run -d -p 5000:5000 registry:2.8

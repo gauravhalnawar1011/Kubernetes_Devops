@@ -1,0 +1,51 @@
+version: "3"
+
+vars:
+  IMAGE_REPO: sidpalas/devops-directive-kubernetes-course-db-migrator
+  IMAGE_TAG: foobarbaz
+  SERVICE_RELEASE_TAG: services/other/api-golang-migrator
+
+includes:
+  utils:
+    taskfile: ../../../utils/Taskfile.yaml
+    dir: ../../../utils
+
+tasks:
+  run-postgres:
+    desc: Start postgres container
+    cmds:
+      - echo Starting postgres container
+      - docker run -e POSTGRES_PASSWORD=foobarbaz -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:16.3-alpine
+
+  run-psql-init-script:
+    desc: Execute psql commands
+    cmds:
+      - |
+        CONTAINER_ID=$(docker ps -q --filter "ancestor=postgres:16.3-alpine")
+        docker cp ./migrations/000001_create_users_table.up.sql $CONTAINER_ID:/tmp/
+        docker exec $CONTAINER_ID psql -U "postgres" -f /tmp/000001_create_users_table.up.sql
+
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - docker build -t {{.IMAGE_REPO}}{{.IMAGE_TAG}} .
+
+  build-container-image-multi-arch:
+    desc: Build multi-arch container image
+    cmds:
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} \
+        --push \
+        .
+
+  install-ci:
+    desc: install/download package dependencies
+    cmds:
+      - echo "NO-OP, nothing to install"
+
+  test:
+    desc: run tests
+    cmds:
+      - echo "NO-OP, no tests for this service yet"

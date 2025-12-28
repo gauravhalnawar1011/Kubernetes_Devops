@@ -1,0 +1,63 @@
+version: "3"
+
+vars:
+  DATABASE_URL: "postgres://postgres:foobarbaz@localhost:5432/postgres"
+  IMAGE_REPO: sidpalas/devops-directive-docker-course-api-golang
+  IMAGE_TAG: foobarbaz
+  SERVICE_RELEASE_TAG: services/go/api-golang
+
+includes:
+  utils:
+    taskfile: ../../../utils/Taskfile.yaml
+    dir: ../../../utils
+
+tasks:
+  install:
+    desc: "download dependencies"
+    cmds:
+      - go mod tidy
+
+  install-ci:
+    desc: install/download package dependencies
+    cmds:
+      - go mod download
+
+  run:
+    desc: "download dependencies"
+    cmds:
+      - echo $PWD
+      - ls
+      - DATABASE_URL={{.DATABASE_URL}} go run main.go
+
+  build-container-image-ko:
+    desc: Build container image using ko
+    cmds:
+      - |
+        KO_DOCKER_REPO='{{.IMAGE_REPO}}' \
+          ko build \
+          --bare \
+          --tags={{.IMAGE_TAG}} \
+          --platform=all
+
+  build-container-image:
+    desc: Build container image
+    cmds:
+      - |
+        docker build \
+          -t={{.IMAGE_TAG}} \
+          .
+
+  build-container-image-multi-arch:
+    desc: Build multi-arch container image
+    cmds:
+      - |
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} \
+        --push \
+        .
+
+  test:
+    desc: run tests
+    cmds:
+      - go test ./test -v
