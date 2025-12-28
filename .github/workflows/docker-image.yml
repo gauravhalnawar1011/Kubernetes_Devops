@@ -1,0 +1,28 @@
+name: Build and Publish image Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '/Day-82/api/Dockerfile'
+      - '/Day-82/front-end-nextjs/Dockerfile'
+
+jobs:
+  publish_images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build images
+        run: |
+          docker build .Day-82/api/ -t ${{ secrets.DOCKER_HUB_USERNAME }}/devops-qr-code-backend:latest
+          docker build .Day-82/front-end-nextjs/ -t ${{ secrets.DOCKER_HUB_USERNAME }}/devops-qr-code-frontend:latest
+
+      - name: Push images to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/devops-qr-code-backend:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/devops-qr-code-frontend:latest
