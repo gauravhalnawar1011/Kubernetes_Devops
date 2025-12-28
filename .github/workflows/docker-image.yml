@@ -1,12 +1,6 @@
 name: Build and Publish image Docker Hub
-
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '/Day-82/api/Dockerfile'
-      - '/Day-82/front-end-nextjs/Dockerfile'
+  workflow_dispatch:
 
 jobs:
   publish_images:
