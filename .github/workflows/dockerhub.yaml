@@ -1,12 +1,12 @@
-name: Build & Push Docker Images (Docker Hub)
+name: Build & Push Docker Images SRE Way
 
 on:
   push:
     branches:
       - main
     paths:
-      - "Day-82/api/**"
-      - "Day-82/front-end-nextjs/**"
+      - "Day-82/api"
+      - "Day-82/front-end-nextjs"
 
 concurrency:
   group: dockerhub-main
@@ -23,7 +23,7 @@ jobs:
   backend:
     name: Build & Push Backend Image
     runs-on: ubuntu-22.04
-    if: contains(join(github.event.head_commit.modified, ' '), 'Day-82/api/')
+    if: contains(join(github.event.head_commit.modified, ' '), 'Day-82/api')
 
     steps:
       - name: Checkout repository
@@ -41,7 +41,7 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v5
         with:
-          context: ./Day-82/api
+          context: Day-82/api
           push: true
           tags: |
             ${{ env.DOCKERHUB_NAMESPACE }}/devops-qr-code-backend:${{ env.IMAGE_TAG }}
@@ -70,10 +70,10 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
-          context: ./Day-82/front-end-nextjs
+          context: Day-82/front-end-nextjs
           push: true
           tags: |
-            ${{ env.DOCKERHUB_NAMESPACE }}/devops-qr-code-frontend:${{ env.IMAGE_TAG }}
+            ${{ env.DOCKERHUB_NAMESPACE }}/demo-test:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: true
