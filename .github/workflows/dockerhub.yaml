@@ -3,7 +3,7 @@ name: Build & Push Docker Images SRE Way
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "Day-82/api"
       - "Day-82/front-end-nextjs"
