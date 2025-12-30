@@ -1,1 +1,0 @@
-This would probably make more sense alongside one of the apis (e.g. services/go/api-golang-migrations...)
