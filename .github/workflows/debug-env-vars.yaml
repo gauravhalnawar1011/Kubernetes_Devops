@@ -14,3 +14,7 @@ jobs:
           echo "::debug::This debug message is hidden by default"
           echo "::warning::This is a warning log"
           echo "::error::This is an error log example"
+      - name: Debug modified files
+        run: |
+          echo "${{ toJson(github.event) }}"
+ 
