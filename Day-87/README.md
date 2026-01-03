@@ -80,12 +80,9 @@ IAM → Identity providers → Add provider
 | Provider URL  | `https://token.actions.githubusercontent.com` |
 | Audience      | `sts.amazonaws.com`                           |
 
-📸 **Screenshot Placeholder**
-*Add screenshot of OIDC provider creation screen here*
 
-```md
+
 <img width="1635" height="995" alt="Image" src="https://github.com/user-attachments/assets/6d4c7070-ba6e-42d3-9db3-6a2f39f18f06" />
-```
 
 ---
 
@@ -103,9 +100,8 @@ IAM → Roles → Create role
 * **Identity provider**: `token.actions.githubusercontent.com`
 * **Audience**: `sts.amazonaws.com`
 
-```md
 <img width="1635" height="995" alt="Image" src="https://github.com/user-attachments/assets/67773077-02ae-4b94-934c-15a778b37e36" />
-```
+
 
 ---
 
@@ -143,9 +139,9 @@ Restrict **who** can assume the role.
 ```
 
 
-```md
+
 <img width="1635" height="995" alt="Image" src="https://github.com/user-attachments/assets/76de0faf-5f83-4e11-9eff-b5bda05b0b4e" />
-```
+
 
 ⚠️ **Do not use wildcards unless absolutely necessary**.
 
