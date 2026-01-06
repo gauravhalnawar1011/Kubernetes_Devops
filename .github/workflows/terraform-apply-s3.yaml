@@ -1,5 +1,5 @@
-name: Terraform Backend Validation
 
+name: Terraform Apply (Dev)
 on:
   pull_request:
   workflow_dispatch:
