@@ -7,9 +7,14 @@ permissions:
   id-token: write
   contents: read
 
+
 jobs:
   terraform-test:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Day-90
 
     steps:
       - name: Checkout code
