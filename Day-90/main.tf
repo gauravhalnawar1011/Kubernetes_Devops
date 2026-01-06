@@ -11,10 +11,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket        = "space9-terraform-bucket-v1"
-    key           = "dev/terraform.tfstate"
-    region        = "ap-south-1"
-    encrypt       = true
+    bucket         = "space9-terraform-bucket-v1"
+    key            = "dev/terraform.tfstate"
+    region         = "ap-south-1"
+    encrypt        = true
     dynamodb_table = "space9-terraform"
   }
 }
