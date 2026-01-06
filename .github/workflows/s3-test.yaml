@@ -1,39 +1,51 @@
-name: Terraform Backend Validation
+name: Terraform Apply Test
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        default: dev
 
 permissions:
   id-token: write
   contents: read
 
-
 jobs:
-  terraform-test:
+  terraform-apply:
     runs-on: ubuntu-latest
+
+    environment: dev   # enables GitHub Environment protections
 
     defaults:
       run:
         working-directory: Day-90
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: "Configure AWS Credentials Action for GitHub Actions"
-        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838v   #v5.0.0 
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_OIDC_ROLE}}
+          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
           aws-region: ap-south-1
 
-      - name: HashiCorp - Setup 
-        uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36  #v3.0.0
+      - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.1.7"
+          terraform_version: 1.6.6
 
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Terraform Init
-        run: terraform init -input=false
+        run: |
+          terraform init \
+            -input=false \
+            -backend-config="key=env/dev/terraform.tfstate"
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -input=false
