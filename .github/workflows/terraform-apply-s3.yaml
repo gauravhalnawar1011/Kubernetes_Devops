@@ -1,5 +1,5 @@
-
 name: Terraform Apply (Dev)
+
 on:
   pull_request:
   workflow_dispatch:
@@ -28,21 +28,22 @@ jobs:
         with:
           terraform_version: 1.6.6
 
-      - run: terraform fmt -check
-      - run: terraform validate
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Terraform Init
         run: |
-          terraform init \
+          terraform init -reconfigure \
             -input=false \
             -backend-config="key=ci/${{ github.run_id }}.tfstate"
 
-      - run: terraform plan -out=tfplan -input=false
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan -input=false
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve tfplan
 
-      - name: Terraform Destroy
-        if: always()
-        run: terraform destroy -auto-approve
