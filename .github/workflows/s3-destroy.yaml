@@ -1,0 +1,52 @@
+name: Terraform Destroy (Dev)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_destroy:
+        description: "Type DESTROY to confirm"
+        required: true
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-destroy:
+    runs-on: ubuntu-latest
+
+    environment: dev   # same environment, same protections
+
+    defaults:
+      run:
+        working-directory: Day-90
+
+    steps:
+      - name: Safety Check
+        run: |
+          if [ "${{ github.event.inputs.confirm_destroy }}" != "DESTROY" ]; then
+            echo "Destroy not confirmed. Exiting."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      - name: "Configure AWS Credentials Action for GitHub Actions"
+        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838v   #v5.0.0 
+        with:
+          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
+          aws-region: ap-south-1
+
+      - name: HashiCorp - Setup 
+        uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36  #v3.0.0
+        with:
+          terraform_version: "1.1.7"
+          
+      - name: Terraform Init
+        run: |
+          terraform init \
+            -input=false \
+            -backend-config="key=env/dev/terraform.tfstate"
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
