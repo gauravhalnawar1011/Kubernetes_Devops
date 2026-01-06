@@ -33,7 +33,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform init \
+          terraform init -reconfigure \
             -input=false \
             -backend-config="key=ci/${{ github.run_id }}.tfstate"
 
