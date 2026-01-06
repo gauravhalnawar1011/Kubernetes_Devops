@@ -23,6 +23,7 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+
 resource "random_string" "bucket_suffix" {
   length  = 8
   special = false

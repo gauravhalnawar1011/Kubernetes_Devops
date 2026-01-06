@@ -20,16 +20,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: "Configure AWS Credentials Action for GitHub Actions"
+        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838v   #v5.0.0 
         with:
           role-to-assume: ${{ vars.AWS_OIDC_ROLE}}
           aws-region: ap-south-1
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - name: HashiCorp - Setup 
+        uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36  #v3.0.0
         with:
-          terraform_version: 1.6.6
+          terraform_version: "1.1.7"
+
 
       - name: Terraform Init
         run: terraform init -input=false
@@ -39,7 +40,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-
-      - name: Terraform Destroy
-        if: always()
-        run: terraform destroy -auto-approve
