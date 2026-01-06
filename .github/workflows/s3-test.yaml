@@ -43,3 +43,6 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve tfplan
 
+      - name: Terraform Destroy
+        if: always()
+        run: terraform destroy -auto-approve
