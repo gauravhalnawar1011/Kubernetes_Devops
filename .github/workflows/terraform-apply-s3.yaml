@@ -1,22 +1,16 @@
-name: Terraform Apply (Dev)
 
+name: Terraform Apply (Dev)
 on:
+  pull_request:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Target environment"
-        required: true
-        default: dev
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  terraform-apply:
+  terraform-test:
     runs-on: ubuntu-latest
-
-    environment: dev   # enables GitHub Environment protections
 
     defaults:
       run:
@@ -25,8 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
           aws-region: ap-south-1
@@ -35,20 +28,21 @@ jobs:
         with:
           terraform_version: 1.6.6
 
-      - name: Terraform Format
-        run: terraform fmt -check
-
-      - name: Terraform Validate
-        run: terraform validate
+      - run: terraform fmt -check
+      - run: terraform validate
 
       - name: Terraform Init
         run: |
           terraform init \
             -input=false \
-            -backend-config="key=env/dev/terraform.tfstate"
+            -backend-config="key=ci/${{ github.run_id }}.tfstate"
 
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan -input=false
+      - run: terraform plan -out=tfplan -input=false
 
       - name: Terraform Apply
+        if: github.event_name == 'workflow_dispatch'
         run: terraform apply -auto-approve tfplan
+
+      - name: Terraform Destroy
+        if: always()
+        run: terraform destroy -auto-approve
