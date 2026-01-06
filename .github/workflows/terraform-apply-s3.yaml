@@ -1,5 +1,4 @@
-
-name: Terraform Backend Validation
+name: Terraform Apply Test Gh Action 
 
 on:
   workflow_dispatch:
@@ -8,9 +7,8 @@ permissions:
   id-token: write
   contents: read
 
-
 jobs:
-  terraform-test:
+  terraform-apply:
     runs-on: ubuntu-latest
 
     defaults:
@@ -24,7 +22,7 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_OIDC_ROLE}}
+          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
           aws-region: ap-south-1
 
       - name: Setup Terraform
@@ -40,7 +38,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-
-      - name: Terraform Destroy
-        if: always()
-        run: terraform destroy -auto-approve
