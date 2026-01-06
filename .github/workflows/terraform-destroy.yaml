@@ -1,4 +1,4 @@
-name: Terraform Destroy (Dev)
+name: Terraform Destroy gh action destroy 
 
 on:
   workflow_dispatch:
