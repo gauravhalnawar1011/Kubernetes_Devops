@@ -1,0 +1,12 @@
+{
+    "database": {
+        "host": "space9-db",
+        "port": 3306,
+        "username": "space9",
+        "pass": "super"
+    },
+    "api": {
+        "endpoint": "https://api.example.com",
+        "timepout": 30
+    }
+}
