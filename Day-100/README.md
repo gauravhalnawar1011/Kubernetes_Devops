@@ -1,6 +1,6 @@
 
 ---
-
+ 
 # Static Website Hosting on AWS using Terraform (Best Practices)
 
 This project provisions a **secure, scalable, and production-ready static website hosting architecture** on AWS using **Terraform**.  
